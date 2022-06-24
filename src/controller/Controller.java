@@ -62,7 +62,7 @@ public class Controller implements ActionListener, ListSelectionListener {
 
     @Override
     public void valueChanged(ListSelectionEvent e) {
-        System.out.println("Row Selected");
+      //  System.out.println("Row Selected");
         int selectedRow = frame.getInvHeaderTable().getSelectedRow();
         System.out.println(selectedRow);
         ArrayList<InvoiceLine> lines = frame.getInvoiceHeadersList().get(selectedRow).getLines();

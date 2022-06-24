@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package model;
 
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
-/**
- *
- * @author DELL
- */
+
 public class InvoiceLineTableModel extends AbstractTableModel {
 
     private ArrayList<InvoiceLine> data;
-    private String[] cols = {"Item Name", "Unit Price", "Count"};
+    private String[] cols = {"Item Name", " Price", "Count"};
 
     public InvoiceLineTableModel(ArrayList<InvoiceLine> data) {
         this.data = data;
