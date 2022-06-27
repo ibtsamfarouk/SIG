@@ -13,6 +13,10 @@ public class InvoiceLineTableModel extends AbstractTableModel {
     public InvoiceLineTableModel(ArrayList<InvoiceLine> data) {
         this.data = data;
     }
+
+    public ArrayList<InvoiceLine> getData() {
+        return data;
+    }
     
     @Override
     public int getRowCount() {
@@ -23,7 +27,23 @@ public class InvoiceLineTableModel extends AbstractTableModel {
     public int getColumnCount() {
         return cols.length;
     }
+    
+    public void addData(InvoiceLine newLine){
+       data.add(newLine);
+         fireTableDataChanged();
+       //fireTableRowsInserted(getRowCount() - 1, getRowCount() - 1);
+    }
 
+    
+    
+    
+     public void deleteLine(int rowIndex) {
+        if (this.data.remove(this.data.get(rowIndex))) {
+            fireTableRowsDeleted(rowIndex, rowIndex);
+        }
+    }
+    
+    
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         InvoiceLine line = data.get(rowIndex);

@@ -14,6 +14,9 @@ public class InvoiceLine {
         this.header = header;
     }
 
+    public InvoiceLine(String name, double price, int count) {
+    }
+
     public InvoiceHeader getHeader() {
         return header;
     }
@@ -52,7 +55,7 @@ public class InvoiceLine {
 
     @Override
     public String toString() {
-        return "InvoiceLine{" + "itemName=" + itemName + ", unitPrice=" + unitPrice + ", count=" + count + ", lineTotal=" + getLineTotal() + '}';
+        return "InvoiceLine{" + "itemName=" + itemName + ", unitPrice=" + unitPrice + ", count=" + count + ", lineTotal=" + getLineTotal() + '}'+"\n";
     }
 
     

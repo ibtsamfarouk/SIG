@@ -47,10 +47,16 @@ public class InvoiceHeader {
         return total;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "InvoiceHeader{" + "id=" + id + ", customerName=" + customerName + ", date=" + date + '}';
+    }*/
+
+    @Override
+    public String toString() {
+        return "InvoiceHeader{" + "id=" + id + ", customerName=" + customerName + ", date=" + date + ", lines=" + lines + '}';
     }
+    
 
     public ArrayList<InvoiceLine> getLines() {
         if (lines == null) {
@@ -59,7 +65,19 @@ public class InvoiceHeader {
         return lines;
     }
     
+    public void addLine(InvoiceLine line){
+    
+    lines.add(line);
+   
+    
+    }
     
     
+   public void removeLine(InvoiceLine line){
+    
+    lines.remove(line);
+   
+    
+    } 
     
 }

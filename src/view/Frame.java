@@ -8,8 +8,17 @@ package view;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import controller.Controller;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.TableModel;
 import model.InvoiceHeader;
 import model.InvoiceHeaderTableModel;
+import model.InvoiceLine;
+import model.InvoiceLineTableModel;
 
 /**
  *
@@ -47,6 +56,14 @@ public class Frame extends javax.swing.JFrame {
         jButton3.addActionListener(controller);
         jButton4 = new javax.swing.JButton();
         jButton4.addActionListener(controller);
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        invoiceIDlbl = new javax.swing.JLabel();
+        invoiceDatelbl = new javax.swing.JLabel();
+        customerNamelbl = new javax.swing.JLabel();
+        invoiceTotallbl = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -64,6 +81,11 @@ public class Frame extends javax.swing.JFrame {
 
             }
         ));
+        invHeaderTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                invHeaderTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(invHeaderTable);
 
         invLineTable.setModel(new javax.swing.table.DefaultTableModel(
@@ -84,6 +106,14 @@ public class Frame extends javax.swing.JFrame {
 
         jButton4.setText("Delete Line");
 
+        jLabel1.setText("Invoice ID");
+
+        jLabel2.setText("Invoice Date");
+
+        jLabel3.setText("Customer Name");
+
+        jLabel4.setText("Invoice Total");
+
         jMenu1.setText("File");
 
         jMenuItem1.setText("Load Files");
@@ -102,33 +132,67 @@ public class Frame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
                         .addComponent(jButton2))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(59, 59, 59)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(invoiceTotallbl, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                                    .addComponent(customerNamelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(invoiceDatelbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(91, 91, 91)
+                                .addComponent(invoiceIDlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
                         .addComponent(jButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(44, 44, 44)
                         .addComponent(jButton4)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(invoiceIDlbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(invoiceDatelbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(customerNamelbl))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(invoiceTotallbl))
+                        .addGap(10, 10, 10)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
@@ -139,6 +203,17 @@ public class Frame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void invHeaderTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_invHeaderTableMouseClicked
+        
+        
+         invoiceIDlbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 0).toString());
+        invoiceDatelbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 1).toString());
+        customerNamelbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 2).toString());
+        invoiceTotallbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 3).toString());
+        
+        
+    }//GEN-LAST:event_invHeaderTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -177,12 +252,20 @@ public class Frame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel customerNamelbl;
     private javax.swing.JTable invHeaderTable;
     private javax.swing.JTable invLineTable;
+    private javax.swing.JLabel invoiceDatelbl;
+    private javax.swing.JLabel invoiceIDlbl;
+    public javax.swing.JLabel invoiceTotallbl;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
@@ -193,6 +276,8 @@ public class Frame extends javax.swing.JFrame {
     private Controller controller;
     private ArrayList<InvoiceHeader> invoiceHeadersList;
     private InvoiceHeaderTableModel headerTableModel;
+    private InvoiceLineTableModel   lineTableModel,invoiceTableModel;
+
 
     public Controller getController() {
         return controller;
@@ -205,15 +290,126 @@ public class Frame extends javax.swing.JFrame {
     public void setInvoiceHeadersList(ArrayList<InvoiceHeader> invoiceHeadersList) {
         this.invoiceHeadersList = invoiceHeadersList;
         headerTableModel = new InvoiceHeaderTableModel(invoiceHeadersList);
-        this.invHeaderTable.setModel(headerTableModel);
+         this.invHeaderTable.setModel(headerTableModel);
+       /*  invoiceIDlbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 0).toString());
+        invoiceDatelbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 1).toString());
+        customerNamelbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 2).toString());
+        invoiceTotallbl.setText(headerTableModel.getValueAt(invHeaderTable.getSelectedRow(), 3).toString());*/
     }
 
+    
+    
+    public void addLineToList(InvoiceLine invoice) {
+        lineTableModel.addData(invoice);
+        //lineTableModel.fireTableDataChanged();
+        
+    
+    }
+     public ArrayList<InvoiceLine> fgetLines(int index) {
+        ArrayList<InvoiceLine> Lines= new ArrayList<>();
+       Lines=headerTableModel.getLines(index);
+        //lineTableModel.fireTableDataChanged();
+        return Lines;
+    
+    }
+ public void addInvoiceToList(InvoiceHeader invoiceheader) {
+     //headerTableModel = new InvoiceHeaderTableModel(invoiceHeadersList);
+       // this.invHeaderTable.setModel(headerTableModel);
+       headerTableModel.addNewHeader(invoiceheader);
+        lineTableModel.fireTableDataChanged();
+        
+ }
+ 
+ public void exportHeadersTocvs(String path) 
+ {
+   try {
+
+        TableModel model = invHeaderTable.getModel();
+        FileWriter csv = new FileWriter(new File(path));
+
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            csv.write(model.getColumnName(i) + ",");
+        }
+
+        csv.write("\n");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                csv.write(model.getValueAt(i, j).toString() + ",");
+            }
+            csv.write("\n");
+        }
+
+        csv.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+ }
+ }
+ 
+ public void exportLinesTocvs(String path) 
+ {
+   try {
+     
+        TableModel model = invLineTable.getModel();
+        FileWriter csv = new FileWriter(new File(path));
+
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            csv.write(model.getColumnName(i) + ",");
+        }
+
+        csv.write("\n");
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                csv.write(model.getValueAt(i, j).toString() + ",");
+            }
+            csv.write("\n");
+        }
+
+        csv.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+ }
+ }
+ 
+ public ArrayList<InvoiceLine>fGetAllLines(){
+     
+     ArrayList <InvoiceLine> AllLines= new ArrayList<InvoiceLine>();
+    AllLines=headerTableModel.getAllLines();
+ return AllLines;
+ }
+ 
+ 
     public JTable getInvHeaderTable() {
         return invHeaderTable;
     }
 
     public JTable getInvLineTable() {
         return invLineTable;
+    }
+
+    public void fdeleteInvoiceRow(int selectedRow) {
+        
+        headerTableModel.deleteInvoice(selectedRow);
+    }
+    
+    
+    /*public void fdeleteLineRow(int selectedRow) {
+        
+        //lineTableModel.deleteLine(selectedRow);
+                headerTableModel.deleteLine(selectedRow);
+
+    }*/
+    
+
+    public void adddd(int selectedRow, InvoiceLine line) {
+        
+        headerTableModel.addLinedown(line, selectedRow);
+    }
+
+    public void addNewInvoiceHeader(InvoiceHeader invoiceHeader) {
+        
+        headerTableModel.addNewInvoiceHeader(invoiceHeader);
     }
     
     
